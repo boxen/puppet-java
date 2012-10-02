@@ -1,4 +1,7 @@
-# Puppet java for Boxen
+# Java Puppet Module for Boxen
 
-FIXME: update me bro
+## Usage
 
+```puppet
+include java
+```

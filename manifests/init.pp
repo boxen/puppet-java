@@ -1,6 +1,6 @@
 class java {
   $url     = 'http://s3.amazonaws.com/github-setup/java-201206.dmg'
-  $wrapper = "{boxen::config::bindir}/java"
+  $wrapper = "${boxen::config::bindir}/java"
 
   package { 'java-201206':
     ensure   => present,

@@ -1,9 +1,10 @@
 class java {
-  $url     = 'http://s3.amazonaws.com/github-setup/java-201206.dmg'
+  $url     = 'http://javadl.sun.com/webapps/download/AutoDL?BundleId=73851'
   $wrapper = "${boxen::config::bindir}/java"
 
-  package { 'java-201206':
+  package { 'jre-7u13-macosx-x64.dmg':
     ensure   => present,
+    alias    => 'java',
     provider => pkgdmg,
     source   => $url
   }
@@ -11,6 +12,6 @@ class java {
   file { $wrapper:
     source  => 'puppet:///modules/java/java.sh',
     mode    => 0755,
-    require => Package['java-201206']
+    require => Package['java']
   }
 }

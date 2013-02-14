@@ -1,5 +1,5 @@
 class java {
-  $url     = 'http://javadl.sun.com/webapps/download/AutoDL?BundleId=73851'
+  $url     = 'https://s3.amazonaws.com/boxen-downloads/java/jre-7u13-macosx-x64.dmg'
   $wrapper = "${boxen::config::bindir}/java"
 
   package { 'jre-7u13-macosx-x64.dmg':

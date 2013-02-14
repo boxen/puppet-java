@@ -1,15 +1,15 @@
 class java {
-  $jre_url = 'https://s3.amazonaws.com/boxen-downloads/java/jre-7u13-macosx-x64-oracle.dmg'
-  $jdk_url = 'https://s3.amazonaws.com/boxen-downloads/java/jdk-7u13-macosx-x64-oracle.dmg'
+  $jre_url = 'https://s3.amazonaws.com/boxen-downloads/java/jre-7u13.dmg'
+  $jdk_url = 'https://s3.amazonaws.com/boxen-downloads/java/jdk-7u13.dmg'
   $wrapper = "${boxen::config::bindir}/java"
 
   package {
-    'jre-7u13-macosx-x64-oracle.dmg':
+    'jre-7u13.dmg':
       ensure   => present,
       alias    => 'java-jre',
       provider => pkgdmg,
       source   => $jre_url ;
-    'jdk-7u13-macosx-x64-oracle.dmg':
+    'jdk-7u13.dmg':
       ensure   => present,
       alias    => 'java',
       provider => pkgdmg,

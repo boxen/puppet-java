@@ -8,12 +8,12 @@ class java {
   exec {
     'get-jdk':
       command => "curl -L --cookie $jdk_cookie -o /tmp/jdk-7u15.dmg $jdk_url",
-      unless => "test -d /Library/Java/JavaVirtualMachines/jdk1.7.0_15.jdk/Contents/Home",
+      unless  => "test -d /Library/Java/JavaVirtualMachines/jdk1.7.0_15.jdk/Contents/Home"
   }
   exec {
     'get-jre':
       command => "curl -L --cookie $jre_cookie -o /tmp/jre-7u15.dmg $jre_url",
-      unless => "test -d /Library/Java/JavaVirtualMachines/jdk1.7.0_15.jdk/Contents/Home/jre",
+      unless  => "test -d /Library/Java/JavaVirtualMachines/jdk1.7.0_15.jdk/Contents/Home/jre"
   }
   package {
     'jre-7u13.dmg':

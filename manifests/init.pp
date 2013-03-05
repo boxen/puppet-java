@@ -1,19 +1,31 @@
 class java {
-  $jre_url = 'https://s3.amazonaws.com/boxen-downloads/java/jre-7u13.dmg'
-  $jdk_url = 'https://s3.amazonaws.com/boxen-downloads/java/jdk-7u13.dmg'
+  $jre_url = 'https://edelivery.oracle.com/otn-pub/java/jdk/7u15-b03/jre-7u15-macosx-x64.dmg'
+  $jdk_url = 'https://edelivery.oracle.com/otn-pub/java/jdk/7u15-b03/jdk-7u15-macosx-x64.dmg'
+  $jdk_cookie = 'gpw_e24=http%3A%2F%2Fwww.oracle.com%2Ftechnetwork%2Fjava%2Fjavase%2Fdownloads%2Fjdk7-downloads-1880260.html'
+  $jre_cookie = 'gpw_e24=http%3A%2F%2Fwww.oracle.com%2Ftechnetwork%2Fjava%2Fjavase%2Fdownloads%2Fjre7-downloads-1880261.html'
   $wrapper = "${boxen::config::bindir}/java"
 
+  exec {
+    'get-jdk':
+      command => "curl -L --cookie $jdk_cookie -o /tmp/jdk-7u15.dmg $jdk_url",
+      unless  => "test -d /Library/Java/JavaVirtualMachines/jdk1.7.0_15.jdk/Contents/Home"
+  }
+  exec {
+    'get-jre':
+      command => "curl -L --cookie $jre_cookie -o /tmp/jre-7u15.dmg $jre_url",
+      unless  => "test -d /Library/Java/JavaVirtualMachines/jdk1.7.0_15.jdk/Contents/Home/jre"
+  }
   package {
     'jre-7u13.dmg':
       ensure   => present,
       alias    => 'java-jre',
       provider => pkgdmg,
-      source   => $jre_url ;
+      source   => '/tmp/jre-7u15.dmg' ;
     'jdk-7u13.dmg':
       ensure   => present,
       alias    => 'java',
       provider => pkgdmg,
-      source   => $jdk_url ;
+      source   => '/tmp/jdk-7u15.dmg' ;
   }
 
   file { $wrapper:

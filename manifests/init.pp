@@ -30,7 +30,6 @@ class java {
     "/Users/${::boxen_user}/.java/deployment/security"
   ]:
       ensure => directory,
-      owner  => $::boxen_user,
       mode   => '0750';
     "/Users/${::boxen_user}/.java/deployment/security/trusted.certs":
       ensure => file,

@@ -1,15 +1,16 @@
-class java {
-  $jre_url = 'https://s3.amazonaws.com/boxen-downloads/java/jre-7u13.dmg'
-  $jdk_url = 'https://s3.amazonaws.com/boxen-downloads/java/jdk-7u13.dmg'
+class java($version='7u17') {
+
+  $jre_url = "https://dl.dropbox.com/u/205010/puppet-java/${version}/jre-${version}-macosx-x64.dmg"
+  $jdk_url = "https://dl.dropbox.com/u/205010/puppet-java/${version}/jdk-${version}-macosx-x64.dmg"
   $wrapper = "${boxen::config::bindir}/java"
 
   package {
-    'jre-7u13.dmg':
+    'jre-{version}.dmg':
       ensure   => present,
       alias    => 'java-jre',
       provider => pkgdmg,
       source   => $jre_url ;
-    'jdk-7u13.dmg':
+    'jdk-{version}.dmg':
       ensure   => present,
       alias    => 'java',
       provider => pkgdmg,

@@ -5,12 +5,12 @@ class java($version='7u17') {
   $wrapper = "${boxen::config::bindir}/java"
 
   package {
-    'jre-${version}.dmg':
+    "jre-${version}.dmg":
       ensure   => present,
       alias    => 'java-jre',
       provider => pkgdmg,
       source   => $jre_url ;
-    'jdk-${version}.dmg':
+    "jdk-${version}.dmg":
       ensure   => present,
       alias    => 'java',
       provider => pkgdmg,

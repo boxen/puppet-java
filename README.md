@@ -1,6 +1,6 @@
 # Java Puppet Module for Boxen
 
-Installs Java 7u17.
+Installs Java 7u21.
 
 ## Usage
 

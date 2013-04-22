@@ -1,4 +1,4 @@
-class java($version='7u17') {
+class java($version='7u21') {
 
   $jre_url = "https://dl.dropbox.com/u/205010/puppet-java/${version}/jre-${version}-macosx-x64.dmg"
   $jdk_url = "https://dl.dropbox.com/u/205010/puppet-java/${version}/jdk-${version}-macosx-x64.dmg"

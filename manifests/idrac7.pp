@@ -1,8 +1,8 @@
+# Public: Dell DRAC and Java 7 Certificate Fix
+# http://people.binf.ku.dk/~hanne/b2evolution/blogs/index.php/2012/08/09/dell-idrac-7-will-not
 class java::idrac7 {
   include java
 
-  # Dell DRAC and Java 7 Certificate Fix
-  # http://people.binf.ku.dk/~hanne/b2evolution/blogs/index.php/2012/08/09/dell-idrac-7-will-not
   file { [
     "/Users/${::boxen_user}/.java",
     "/Users/${::boxen_user}/.java/deployment",

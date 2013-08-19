@@ -1,3 +1,4 @@
+# Public: installs java jre-7u21
 class java {
   $jre_url = 'https://s3.amazonaws.com/boxen-downloads/java/jre-7u21-macosx-x64.dmg'
   $jdk_url = 'https://s3.amazonaws.com/boxen-downloads/java/jdk-7u21-macosx-x64.dmg'
@@ -18,7 +19,7 @@ class java {
 
   file { $wrapper:
     source  => 'puppet:///modules/java/java.sh',
-    mode    => 0755,
+    mode    => '0755',
     require => Package['java']
   }
 }

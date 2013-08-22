@@ -1,5 +1,9 @@
 # Public: Dell DRAC and Java 7 Certificate Fix
 # http://people.binf.ku.dk/~hanne/b2evolution/blogs/index.php/2012/08/09/dell-idrac-7-will-not
+#
+# Examples
+#
+#    include java::idrac7
 class java::idrac7 {
   include java
 

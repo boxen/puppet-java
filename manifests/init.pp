@@ -4,6 +4,8 @@
 #
 #    include java
 class java {
+  include boxen::config
+
   $jre_url = 'https://s3.amazonaws.com/boxen-downloads/java/jre-7u21-macosx-x64.dmg'
   $jdk_url = 'https://s3.amazonaws.com/boxen-downloads/java/jdk-7u21-macosx-x64.dmg'
   $wrapper = "${boxen::config::bindir}/java"

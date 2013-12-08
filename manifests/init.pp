@@ -39,7 +39,6 @@ class java {
     owner   => 'root',
     group   => 'wheel',
     mode    => '0775',
-    alias   => 'sec-dir',
     require => Package['java']
   }
 

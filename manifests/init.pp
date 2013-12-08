@@ -47,7 +47,7 @@ class java {
     owner   => 'root',
     group   => 'wheel',
     mode    => '0664',
-    require => File['sec-dir']
+    require => File[$sec_dir]
   }
 
   file { "${sec_dir}/US_export_policy.jar":
@@ -55,6 +55,6 @@ class java {
     owner   => 'root',
     group   => 'wheel',
     mode    => '0664',
-    require => File['sec-dir']
+    require => File[$sec_dir]
   }
 }

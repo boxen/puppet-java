@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/boxen/puppet-java.png?branch=master)](https://travis-ci.org/boxen/puppet-java)
 
-Installs Java 7u21 and unlimited key length security policy files..
+Installs Java 7u45 and unlimited key length security policy files..
 
 
 ## Usage

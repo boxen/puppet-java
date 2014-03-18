@@ -3,21 +3,25 @@
 # Examples
 #
 #    include java
-class java {
+class java (
+  $update_version = '51',
+  $base_download_url = 'https://s3.amazonaws.com/boxen-downloads/java'
+) {
   include boxen::config
 
-  $jre_url = 'https://s3.amazonaws.com/boxen-downloads/java/jre-7u51-macosx-x64.dmg'
-  $jdk_url = 'https://s3.amazonaws.com/boxen-downloads/java/jdk-7u51-macosx-x64.dmg'
+  $jre_url = "${base_download_url}/jre-7u${update_version}-macosx-x64.dmg"
+  $jdk_url = "${base_download_url}/jdk-7u${update_version}-macosx-x64.dmg"
   $wrapper = "${boxen::config::bindir}/java"
-  $sec_dir = '/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home/jre/lib/security'
+  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.7.0_${update_version}.jdk"
+  $sec_dir = "${jdk_dir}/Contents/Home/jre/lib/security"
 
   package {
-    'jre-7u51.dmg':
+    "jre-7u${update_version}.dmg":
       ensure   => present,
       alias    => 'java-jre',
       provider => pkgdmg,
       source   => $jre_url ;
-    'jdk-7u51.dmg':
+    "jdk-7u${update_version}.dmg":
       ensure   => present,
       alias    => 'java',
       provider => pkgdmg,

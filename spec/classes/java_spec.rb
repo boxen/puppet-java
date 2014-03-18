@@ -4,8 +4,8 @@ describe "java" do
   let(:facts) { default_test_facts }
   let(:params) {
     {
-      update_version: '42',
-      base_download_url: 'https://downloads.test/java'
+      :update_version => '42',
+      :base_download_url => 'https://downloads.test/java'
     }
   }
 

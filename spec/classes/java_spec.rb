@@ -4,7 +4,6 @@ describe "java" do
   let(:facts) { default_test_facts }
   let(:params) {
     {
-      :update_version => '42',
       :base_download_url => 'https://downloads.test/java'
     }
   }
@@ -12,18 +11,18 @@ describe "java" do
   it do
     should include_class('boxen::config')
 
-    should contain_package('jre-7u42.dmg').with({
+    should contain_package('jre-8.dmg').with({
       :ensure   => 'present',
       :alias    => 'java-jre',
       :provider => 'pkgdmg',
-      :source   => 'https://downloads.test/java/jre-7u42-macosx-x64.dmg'
+      :source   => 'https://downloads.test/java/jre-8-macosx-x64.dmg'
     })
 
-    should contain_package('jdk-7u42.dmg').with({
+    should contain_package('jdk-8.dmg').with({
       :ensure   => 'present',
       :alias    => 'java',
       :provider => 'pkgdmg',
-      :source   => 'https://downloads.test/java/jdk-7u42-macosx-x64.dmg'
+      :source   => 'https://downloads.test/java/jdk-8-macosx-x64.dmg'
     })
 
     should contain_file('/test/boxen/bin/java').with({

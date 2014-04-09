@@ -11,16 +11,16 @@ class java (
   $jre_url = "${base_download_url}/jre-8-macosx-x64.dmg"
   $jdk_url = "${base_download_url}/jdk-8-macosx-x64.dmg"
   $wrapper = "${boxen::config::bindir}/java"
-  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.8.0.jdk"
+  $jdk_dir = '/Library/Java/JavaVirtualMachines/jdk1.8.0.jdk'
   $sec_dir = "${jdk_dir}/Contents/Home/jre/lib/security"
 
   package {
-    "jre-8.dmg":
+    'jre-8.dmg':
       ensure   => present,
       alias    => 'java-jre',
       provider => pkgdmg,
       source   => $jre_url ;
-    "jdk-8.dmg":
+    'jdk-8.dmg':
       ensure   => present,
       alias    => 'java',
       provider => pkgdmg,

@@ -31,5 +31,12 @@ describe "java" do
       :mode    => '0755',
       :require => 'Package[java]'
     })
+
+    should contain_file("/Library/Java/JavaVirtualMachines/jdk1.7.0_42.jdk/Contents/Info.plist").with({
+      :owner   => 'root',
+      :group   => 'wheel',
+      :mode    => '0664',
+      :require => 'Package[java]'
+    }).with_content(/<string>JNI<\/string>/).with_content(/<string>BundledApp<\/string>/).with_content(/<string>CommandLine<\/string>/)
   end
 end

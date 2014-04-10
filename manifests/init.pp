@@ -61,4 +61,15 @@ class java (
     mode    => '0664',
     require => File[$sec_dir]
   }
+
+  # Update VM Capabilities to allow Eclipse (and similar) to start
+  # http://stackoverflow.com/questions/19563766/eclipse-kepler-for-os-x-mavericks-request-java-se-6
+  file { "${jdk_dir}/Contents/Info.plist":
+    content => template('java/Info.plist.erb'),
+    owner   => 'root',
+    group   => 'wheel',
+    mode    => '0664',
+    require =>  Package['java']
+  }
+
 }

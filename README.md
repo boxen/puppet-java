@@ -14,7 +14,7 @@ include java
 
 ## Parameters
 
-You can customise this module by configuring some optional class parameters. Usually you'd do this via Hiera, but you could also explicitly pass those parameters in puppet code like `class { 'java': $update_version => '42', }`.
+You can customise this module by configuring some optional class parameters. Usually you'd do this via Hiera, but you could also explicitly pass those parameters in puppet code like `class { 'java': update_version => '42', }`.
 
 * `update_version`: The 'update' part of the JRE/JDK version to install. For example, if you specify `51`, the module would install java 7u51
 * `base_download_url`: A base path from which the JRE and JDK packages should be downloaded. For example, if you specify `https://myorg.example/dist/java`, this module would download the jre from `https://myorg.example/dist/java/jre-7u51-macosx-x64.dmg`.

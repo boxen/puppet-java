@@ -18,6 +18,7 @@ You can customise this module by configuring some optional class parameters. Usu
 
 * `update_version`: The 'update' part of the JRE/JDK version to install. For example, if you specify `51`, the module would install java 7u51
 * `base_download_url`: A base path from which the JRE and JDK packages should be downloaded. For example, if you specify `https://myorg.example/dist/java`, this module would download the jre from `https://myorg.example/dist/java/jre-7u51-macosx-x64.dmg`.
+* `wrap_java`: Whether to add a java.sh file in boxen::config::bindir that modifies DYLD_FALLBACK_LIBRARY_PATH and JAVA_HOME
 
 All of these parameters have sensible defaults, and are provided if you need more control.
 

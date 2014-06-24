@@ -32,4 +32,25 @@ describe "java" do
       :require => 'Package[java]'
     })
   end
+
+
 end
+
+describe "java" do
+  let(:facts) { default_test_facts }
+  let(:params) {
+    {
+      :wrap_java => false
+    }
+  }
+
+  it do
+    should_not contain_file('/test/boxen/bin/java').with({
+      :source  => 'puppet:///modules/java/java.sh',
+      :mode    => '0755',
+      :require => 'Package[java]'
+    })
+  end
+end
+
+

@@ -5,7 +5,8 @@
 #    include java
 class java (
   $update_version = '55',
-  $base_download_url = 'https://s3.amazonaws.com/boxen-downloads/java'
+  $base_download_url = 'https://s3.amazonaws.com/boxen-downloads/java',
+  $wrap_java = true,
 ) {
   include boxen::config
 
@@ -28,10 +29,12 @@ class java (
       source   => $jdk_url ;
   }
 
-  file { $wrapper:
-    source  => 'puppet:///modules/java/java.sh',
-    mode    => '0755',
-    require => Package['java']
+  if $wrap_java {
+    file { $wrapper:
+      source  => 'puppet:///modules/java/java.sh',
+      mode    => '0755',
+      require => Package['java']
+    }
   }
 
 

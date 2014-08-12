@@ -4,7 +4,7 @@
 # This allows java to load native libraries installed via homebrew.
 
 if [ -z "$DYLD_FALLBACK_LIBRARY_PATH" ]; then
-    export DYLD_FALLBACK_LIBRARY_PATH="$HOME/lib:/usr/local/lib:/lib:/usr/lib"
+    DYLD_FALLBACK_LIBRARY_PATH="$HOME/lib:/usr/local/lib:/lib:/usr/lib"
 fi
 
 export DYLD_FALLBACK_LIBRARY_PATH="$BOXEN_HOME/homebrew/lib:$DYLD_FALLBACK_LIBRARY_PATH"

@@ -10,7 +10,7 @@ describe "java" do
   }
 
   it do
-    should include_class('boxen::config')
+    should contain_class('boxen::config')
 
     should contain_package('jre-7u42.dmg').with({
       :ensure   => 'present',

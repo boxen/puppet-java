@@ -3,8 +3,7 @@
 # Purpose: get Java's patch level
 #
 # Resolution:
-#   Uses java_version fact
-#   Returns output of "java -version" and splits on the patch number (after _)
+#   Uses java_version fact splits on the patch number (after _)
 #
 # Caveats:
 #   none

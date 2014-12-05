@@ -14,7 +14,7 @@ Facter.add(:java_patch_level) do
   setcode do
     java_version = Facter.value(:java_version)
     if java_version.nil?
-      "NOT_INSTALLED"
+      "JAVA_NOT_INSTALLED"
     else
       java_patch_level = java_version.strip.split('_')[1]
     end

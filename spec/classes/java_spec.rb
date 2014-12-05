@@ -32,4 +32,18 @@ describe "java" do
       :require => 'Package[java]'
     })
   end
+
+  context 'fails when java version has Yosemite relevant bug' do
+    let(:facts) { default_test_facts.merge({ :macosx_productversion_major => '10.10' }) }
+    let(:params) {
+      {
+        :update_version => '51',
+      }
+    }
+    it do
+      expect {
+        should contain_class('java')
+      }.to raise_error(/Yosemite Requires Java 7 with a patch level >= 71 \(Bug JDK\-8027686\)/)
+    end
+  end
 end

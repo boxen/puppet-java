@@ -14,10 +14,6 @@
 Facter.add(:java_version) do
   setcode do
     t_java = Facter::Util::Resolution.exec("java -version 2>&1")
-    if t_java.nil?
-      java_version = "NOT_INSTALLED"
-    else
-      j_version = t_java.to_s.lines.first.strip.split(/version/)[1].gsub(/"/, "").strip
-    end
+    java_version = t_java.to_s.lines.first.strip.split(/version/)[1].gsub(/"/, "").strip
   end
 end

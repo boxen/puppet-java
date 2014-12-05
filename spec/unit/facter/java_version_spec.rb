@@ -26,7 +26,7 @@ describe Facter::Util::Fact do
         java_version_output = "bash: java: command not found"
         allow(Facter::Util::Resolution).to receive(:exec).with("java -version 2>&1").
         and_return(java_version_output)
-        Facter.fact(:java_version).value.should == "NOT_INSTALLED"
+        Facter.fact(:java_version).value.should be_nil
       end
     end
   end

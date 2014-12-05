@@ -3,7 +3,7 @@
 # Purpose: store java versions in the config DB
 #
 # Resolution:
-#   tests for presence of java;
+#   Tests for presence of java, returns nil if not present
 #   returns output of "java -version" and splits on \n + '"'
 #
 # Caveats:

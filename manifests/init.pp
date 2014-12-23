@@ -15,6 +15,12 @@ class java (
   $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.7.0_${update_version}.jdk"
   $sec_dir = "${jdk_dir}/Contents/Home/jre/lib/security"
 
+  if ((versioncmp($::macosx_productversion_major, '10.10') >= 0) and
+    versioncmp($update_version, '71') < 0)
+  {
+    fail('Yosemite Requires Java 7 with a patch level >= 71 (Bug JDK-8027686)')
+  }
+
   package {
     "jre-7u${update_version}.dmg":
       ensure   => present,

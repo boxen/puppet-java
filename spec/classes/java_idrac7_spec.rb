@@ -4,7 +4,7 @@ describe "java::idrac7" do
   let(:facts) { default_test_facts }
 
   it do
-    should include_class('java')
+    should contain_class('java')
 
     ['.java', '.java/deployment', '.java/deployment/security'].each do |dir|
       should contain_file("/Users/testuser/#{dir}").with({

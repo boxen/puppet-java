@@ -15,14 +15,14 @@ describe "java" do
       :ensure   => 'present',
       :alias    => 'java-jre',
       :provider => 'pkgdmg',
-      :source   => 'https://downloads.test/java/jre-8-macosx-x64.dmg'
+      :source   => 'https://downloads.test/java/jre-8u25-macosx-x64.dmg'
     })
 
     should contain_package('jdk-8.dmg').with({
       :ensure   => 'present',
       :alias    => 'java',
       :provider => 'pkgdmg',
-      :source   => 'https://downloads.test/java/jdk-8-macosx-x64.dmg'
+      :source   => 'https://downloads.test/java/jdk-8u25-macosx-x64.dmg'
     })
 
     should contain_file('/test/boxen/bin/java').with({
@@ -36,13 +36,13 @@ describe "java" do
     let(:facts) { default_test_facts.merge({ :macosx_productversion_major => '10.10' }) }
     let(:params) {
       {
-        :update_version => '51',
+        :update_version => '5',
       }
     }
     it do
       expect {
         should contain_class('java')
-      }.to raise_error(/Yosemite Requires Java 7 with a patch level >= 71 \(Bug JDK\-8027686\)/)
+      }.to raise_error(/Yosemite Requires Java 8 with a patch level >= 20 \(Bug JDK\-8027686\)/)
     end
   end
 end

@@ -4,30 +4,30 @@
 #
 #    include java
 class java (
-  $update_version = '71',
+  $update_version = '25',
   $base_download_url = 'https://s3.amazonaws.com/boxen-downloads/java'
 ) {
   include boxen::config
 
-  $jre_url = "${base_download_url}/jre-7u${update_version}-macosx-x64.dmg"
-  $jdk_url = "${base_download_url}/jdk-7u${update_version}-macosx-x64.dmg"
+  $jre_url = "${base_download_url}/jre-8u${update_version}-macosx-x64.dmg"
+  $jdk_url = "${base_download_url}/jdk-8u${update_version}-macosx-x64.dmg"
   $wrapper = "${boxen::config::bindir}/java"
-  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.7.0_${update_version}.jdk"
+  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.8.0_${update_version}.jdk"
   $sec_dir = "${jdk_dir}/Contents/Home/jre/lib/security"
 
   if ((versioncmp($::macosx_productversion_major, '10.10') >= 0) and
-    versioncmp($update_version, '71') < 0)
+    versioncmp($update_version, '20') < 0)
   {
-    fail('Yosemite Requires Java 7 with a patch level >= 71 (Bug JDK-8027686)')
+    fail('Yosemite Requires Java 8 with a patch level >= 20 (Bug JDK-8027686)')
   }
 
   package {
-    "jre-7u${update_version}.dmg":
+    'jre-8.dmg':
       ensure   => present,
       alias    => 'java-jre',
       provider => pkgdmg,
       source   => $jre_url ;
-    "jdk-7u${update_version}.dmg":
+    'jdk-8.dmg':
       ensure   => present,
       alias    => 'java',
       provider => pkgdmg,

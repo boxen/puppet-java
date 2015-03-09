@@ -13,10 +13,12 @@ java version "1.7.0_71"
 Java(TM) SE Runtime Environment (build 1.7.0_71-b14)
 Java HotSpot(TM) 64-Bit Server VM (build 24.71-b01, mixed mode)
         EOS
-        allow(Facter::Util::Resolution).to receive(:which).with("java").
-          and_return(true)
-        allow(Facter::Util::Resolution).to receive(:exec).with("java -version 2>&1").
-          and_return(java_version_output)
+        allow(Facter::Util::Resolution).to receive(:which).
+          with("java").and_return(true)
+        expect(Kernel).to receive(:system).
+          with("/usr/libexec/java_home --failfast &>/dev/null").and_return(true)
+        allow(Facter::Util::Resolution).to receive(:exec).
+          with("java -Xmx8m -version 2>&1").and_return(java_version_output)
         Facter.fact(:java_version).value.should == "1.7.0_71"
       end
     end
@@ -25,7 +27,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.71-b01, mixed mode)
       it do
         allow(Facter::Util::Resolution).to receive(:which).with("java").
           and_return(false)
-        Facter.fact(:java_version).should be_nil
+        Facter.fact(:java_version).value.should be_nil
       end
     end
   end

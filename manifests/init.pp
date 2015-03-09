@@ -10,11 +10,12 @@ class java (
 ) {
   include boxen::config
 
-  $new_java_version = "1.${java_major_version}-${update_version}"
-  $jre_url = "${base_download_url}/jre-${java_major_version}-macosx-x64.dmg"
-  $jdk_url = "${base_download_url}/jdk-${java_major_version}-macosx-x64.dmg"
+  $new_java_version  = "1.${java_major_version}.${update_version}"
+  $java_package_name = "${java_major_version}u${update_version}-macosx-x64.dmg"
+  $jre_url = "${base_download_url}/jre-${java_package_name}"
+  $jdk_url = "${base_download_url}/jdk-${java_package_name}"
   $wrapper = "${boxen::config::bindir}/java"
-  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.${java_major_version}.0.jdk"
+  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.${java_major_version}.0_${update_version}.jdk"
   $sec_dir = "${jdk_dir}/Contents/Home/jre/lib/security"
 
   if ((versioncmp($::macosx_productversion_major, '10.10') >= 0) and

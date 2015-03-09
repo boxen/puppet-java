@@ -28,8 +28,7 @@ describe "java" do
 
     should contain_file('/test/boxen/bin/java').with({
       :source  => 'puppet:///modules/java/java.sh',
-      :mode    => '0755',
-      :require => 'Package[java]'
+      :mode    => '0755'
     })
   end
 

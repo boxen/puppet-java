@@ -1,0 +1,8 @@
+source "https://rubygems.org"
+
+group :system_tests do
+  gem 'beaker'
+  gem 'beaker-rspec'
+  gem 'serverspec'
+  gem 'beaker-librarian'
+end

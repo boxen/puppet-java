@@ -4,48 +4,50 @@
 #
 #    include java
 class java (
-  $java_major_version = '7',
+  $update_major_version = '7',
   $update_version = '71',
   $base_download_url = 'https://s3.amazonaws.com/boxen-downloads/java'
 ) {
   include boxen::config
 
-  $new_java_version  = "1.${java_major_version}.${update_version}"
-  $java_package_name = "${java_major_version}u${update_version}-macosx-x64.dmg"
+  $new_java_version  = "1.${update_major_version}.${update_version}"
+  $java_package_name = "${update_major_version}u${update_version}-macosx-x64.dmg"
   $jre_url = "${base_download_url}/jre-${java_package_name}"
   $jdk_url = "${base_download_url}/jdk-${java_package_name}"
   $wrapper = "${boxen::config::bindir}/java"
-  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.${java_major_version}.0_${update_version}.jdk"
+  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.${update_major_version}.0_${update_version}.jdk"
   $sec_dir = "${jdk_dir}/Contents/Home/jre/lib/security"
 
   if ((versioncmp($::macosx_productversion_major, '10.10') >= 0) and
-    (versioncmp($update_version, '71') < 0) and $java_major_version == '7')
+    (versioncmp($update_version, '71') < 0) and $update_major_version == '7')
   {
     fail('Yosemite Requires Java 7 with a patch level >= 71 (Bug JDK-8027686)')
   }
 
   if ((versioncmp($::macosx_productversion_major, '10.10') >= 0) and
-    (versioncmp($update_version, '20') < 0) and $java_major_version == '8')
+    (versioncmp($update_version, '20') < 0) and $update_major_version == '8')
   {
     fail('Yosemite Requires Java 8 with a patch level >= 20 (Bug JDK-8027686)')
   }
 
-  if (versioncmp($::java_version, $new_java_version) < 0) {
+  $java_version_installed = regsubst($::java_version, '_', '.')
+  $java_version_potential = "1.${update_major_version}.0.${update_version}"
+  $java_version_drift     = versioncmp($java_version_installed, $java_version_potential)
+
+  if ($java_version_drift)
+  {
     package {
-      "jre-${java_major_version}u${update_version}.dmg":
+      "jre-${update_major_version}u${update_version}.dmg":
         ensure   => present,
         alias    => 'java-jre',
         provider => pkgdmg,
         source   => $jre_url ;
-      "jdk-${java_major_version}u${update_version}.dmg":
+      "jdk-${update_major_version}u${update_version}.dmg":
         ensure   => present,
         alias    => 'java',
         provider => pkgdmg,
         source   => $jdk_url ;
     }
-  }
-  else {
-    notify { "You requested ${new_java_version} be installed, but you already have ${::java_version} which is more recent!": }
   }
 
   file { $wrapper:
@@ -64,7 +66,7 @@ class java (
   }
 
   file { "${sec_dir}/local_policy.jar":
-    source  => 'puppet:///modules/java/local_policy.jar',
+    source  => "puppet:///modules/java/${update_major_version}/local_policy.jar",
     owner   => 'root',
     group   => 'wheel',
     mode    => '0664',
@@ -72,7 +74,7 @@ class java (
   }
 
   file { "${sec_dir}/US_export_policy.jar":
-    source  => 'puppet:///modules/java/US_export_policy.jar',
+    source  => "puppet:///modules/java/${update_major_version}/US_export_policy.jar",
     owner   => 'root',
     group   => 'wheel',
     mode    => '0664',

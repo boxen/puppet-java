@@ -34,7 +34,7 @@ describe "java" do
       let(:facts) { default_test_facts.merge({ :macosx_productversion_major => '10.10' }) }
       let(:params) {
         {
-          :java_major_version => '7',
+          :update_major_version => '7',
           :update_version     => '51',
         }
       }
@@ -48,7 +48,7 @@ describe "java" do
       let(:facts) { default_test_facts.merge({ :macosx_productversion_major => '10.10' }) }
       let(:params) {
         {
-          :java_major_version => '8',
+          :update_major_version => '8',
           :update_version     => '11',
         }
       }
@@ -61,11 +61,14 @@ describe "java" do
   end
 
   context 'doesnt install java if newer version already present' do
-    context "java 7" do
-      let(:facts) { default_test_facts.merge({ :java_version => '1.7.0_72' }) }
+    context "trying to install Java 7 when Java 8 already installed" do
+      let(:facts) { default_test_facts.merge({
+        :java_version => '1.8.0_21',
+      })
+      }
       let(:params) {
         {
-          :java_major_version => '7',
+          :update_major_version => '7',
           :update_version     => '71',
         }
       }
@@ -74,18 +77,22 @@ describe "java" do
         should_not contain_package('jre-7u71.dmg')
       end
     end
-    context "java 8" do
-      let(:facts) { default_test_facts.merge({ :java_version => '1.8.0_22' }) }
+    context "trying to install Java 7 when a higher patch version already installed" do
+      let(:facts) { default_test_facts.merge({
+        :java_version => '1.7.0_71',
+      })
+      }
       let(:params) {
         {
-          :java_major_version => '8',
-          :update_version     => '21',
+          :update_major_version => '7',
+          :update_version     => '20',
         }
       }
       it do
         should contain_class('boxen::config')
-        should_not contain_package('jre-8u21.dmg')
+        should_not contain_package('jre-7u20.dmg')
       end
     end
   end
+
 end

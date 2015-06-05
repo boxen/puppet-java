@@ -26,13 +26,18 @@ class java (
     mode    => '0755'
   }
 
-  if (versioncmp($::java_version, '1.8.0') < 0) {
+  if (versioncmp($::java_jre_version, '1.8.0') < 0) {
     package {
       "jre-7u${update_version}.dmg":
         ensure   => present,
         alias    => 'java-jre',
         provider => pkgdmg,
         source   => $jre_url ;
+    }
+  }
+
+  if (versioncmp($::java_version, '1.8.0') < 0) {
+    package {
       "jdk-7u${update_version}.dmg":
         ensure   => present,
         alias    => 'java',

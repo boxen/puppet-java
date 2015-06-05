@@ -21,7 +21,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.71-b01, mixed mode)
       end
     end
 
-    context 'returns nil when java present' do
+    context 'returns nil when java not present' do
       it do
         java_version_output = "bash: java: command not found"
         allow(Facter::Util::Resolution).to receive(:exec).with("java -version 2>&1").

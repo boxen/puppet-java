@@ -36,3 +36,9 @@ java::base_download_url: 'https://myorg.example/dist/java'
 
 Write code. Run `script/cibuild` to test it. Check the `script`
 directory for other useful tools.
+
+## Acceptance Tests
+
+$ bundle install --gemfile spec/Gemfile.beaker
+
+$ BUNDLE_GEMFILE=spec/Gemfile.beaker bundle exec rspec spec/acceptance/class_spec.rb

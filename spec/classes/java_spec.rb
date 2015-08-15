@@ -30,6 +30,13 @@ describe "java" do
       :source  => 'puppet:///modules/java/java.sh',
       :mode    => '0755'
     })
+
+    should contain_file("/Library/Java/JavaVirtualMachines/jdk1.7.0_42.jdk/Contents/Info.plist").with({
+      :owner   => 'root',
+      :group   => 'wheel',
+      :mode    => '0664',
+      :require => 'Package[java]'
+    }).with_content(/<string>JNI<\/string>/).with_content(/<string>BundledApp<\/string>/).with_content(/<string>CommandLine<\/string>/)
   end
 
   context 'fails when java version has Yosemite relevant bug' do

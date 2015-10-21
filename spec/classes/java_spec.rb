@@ -4,27 +4,18 @@ describe "java" do
   let(:facts) { default_test_facts }
   let(:params) {
     {
-      :update_version => '42',
-      :base_download_url => 'https://downloads.test/java'
+      :update_version => '65',
+      :minor_version => 'b17',
     }
   }
 
   it do
     should contain_class('boxen::config')
+    should contain_class('wget')
 
-    should contain_package('jre-7u42.dmg').with({
-      :ensure   => 'present',
-      :alias    => 'java-jre',
-      :provider => 'pkgdmg',
-      :source   => 'https://downloads.test/java/jre-7u42-macosx-x64.dmg'
-    })
+    should contain_exec('download jdk 65')
 
-    should contain_package('jdk-7u42.dmg').with({
-      :ensure   => 'present',
-      :alias    => 'java',
-      :provider => 'pkgdmg',
-      :source   => 'https://downloads.test/java/jdk-7u42-macosx-x64.dmg'
-    })
+    should contain_package('jdk 65')
 
     should contain_file('/test/boxen/bin/java').with({
       :source  => 'puppet:///modules/java/java.sh',
@@ -36,7 +27,7 @@ describe "java" do
     let(:facts) { default_test_facts.merge({ :macosx_productversion_major => '10.10' }) }
     let(:params) {
       {
-        :update_version => '51',
+        :update_version => '65',
       }
     }
     it do

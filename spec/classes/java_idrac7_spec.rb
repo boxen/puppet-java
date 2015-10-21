@@ -5,6 +5,7 @@ describe "java::idrac7" do
 
   it do
     should contain_class('java')
+    should include_class('wget')
 
     ['.java', '.java/deployment', '.java/deployment/security'].each do |dir|
       should contain_file("/Users/testuser/#{dir}").with({

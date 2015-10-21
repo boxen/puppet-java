@@ -1,19 +1,19 @@
-# Public: installs java jre-7u51 and JCE unlimited key size policy files
+# Public: installs java jdk and JCE unlimited key size policy files
 #
 # Examples
 #
 #    include java
 class java (
-  $update_version = '71',
-  $base_download_url = 'https://s3.amazonaws.com/boxen-downloads/java'
+  $update_version = '65',
+  $minor_version = 'b17'
 ) {
   include boxen::config
+  include wget
 
-  $jre_url = "${base_download_url}/jre-7u${update_version}-macosx-x64.dmg"
-  $jdk_url = "${base_download_url}/jdk-7u${update_version}-macosx-x64.dmg"
   $wrapper = "${boxen::config::bindir}/java"
-  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.7.0_${update_version}.jdk"
-  $sec_dir = "${jdk_dir}/Contents/Home/jre/lib/security"
+  $jdk_download_url = "http://download.oracle.com/otn-pub/java/jdk/8u${update_version}-${minor_version}"
+  $jdk_package = "jdk-8u${update_version}-macosx-x64.dmg"
+  $jdk_dir = '/Library/Java/JavaVirtualMachines'
 
   if ((versioncmp($::macosx_productversion_major, '10.10') >= 0) and
     versioncmp($update_version, '71') < 0)
@@ -26,49 +26,15 @@ class java (
     mode    => '0755'
   }
 
-  if (versioncmp($::java_jre_version, '1.8.0') < 0) {
-    package {
-      "jre-7u${update_version}.dmg":
-        ensure   => present,
-        alias    => 'java-jre',
-        provider => pkgdmg,
-        source   => $jre_url ;
-    }
+  exec { "download jdk ${update_version}":
+    command => "wget --quiet --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' ${jdk_download_url}/${jdk_package} -P ${jdk_dir}",
+    user => "root",
+    creates => "${jdk_dir}/${jdk_package}",
+    require => Package['wget'],
   }
 
-  if (versioncmp($::java_version, '1.8.0') < 0) {
-    package {
-      "jdk-7u${update_version}.dmg":
-        ensure   => present,
-        alias    => 'java',
-        provider => pkgdmg,
-        source   => $jdk_url ;
-    }
-
-    # Allow 'large' keys locally.
-    # http://www.ngs.ac.uk/tools/jcepolicyfiles
-    file { $sec_dir:
-      ensure  => 'directory',
-      owner   => 'root',
-      group   => 'wheel',
-      mode    => '0775',
-      require => Package['java']
-    }
-
-    file { "${sec_dir}/local_policy.jar":
-      source  => 'puppet:///modules/java/local_policy.jar',
-      owner   => 'root',
-      group   => 'wheel',
-      mode    => '0664',
-      require => File[$sec_dir]
-    }
-
-    file { "${sec_dir}/US_export_policy.jar":
-      source  => 'puppet:///modules/java/US_export_policy.jar',
-      owner   => 'root',
-      group   => 'wheel',
-      mode    => '0664',
-      require => File[$sec_dir]
-    }
+  package { "jdk ${update_version}":
+    provider => 'pkgdmg',
+    source => "${jdk_dir}/${jdk_package}",
   }
 }

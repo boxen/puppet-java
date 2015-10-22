@@ -13,27 +13,21 @@ describe "java" do
     should contain_class('boxen::config')
     should contain_class('wget')
 
-    should contain_exec('download jdk 65')
-
-    should contain_package('jdk 65')
-
     should contain_file('/test/boxen/bin/java').with({
       :source  => 'puppet:///modules/java/java.sh',
       :mode    => '0755'
     })
-  end
 
-  context 'fails when java version has Yosemite relevant bug' do
-    let(:facts) { default_test_facts.merge({ :macosx_productversion_major => '10.10' }) }
-    let(:params) {
-      {
-        :update_version => '65',
-      }
-    }
-    it do
-      expect {
-        should contain_class('java')
-      }.to raise_error(/Yosemite Requires Java 7 with a patch level >= 71 \(Bug JDK\-8027686\)/)
-    end
+    should contain_exec('download jdk-8u65-macosx-x64.dmg').with({
+      :command => 'wget --quiet --no-check-certificate --no-cookies --header \'Cookie: oraclelicense=accept-securebackup-cookie\' http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65-macosx-x64.dmg -P /Library/Java/JavaVirtualMachines',
+      :user    => 'root',
+      :creates => '/Library/Java/JavaVirtualMachines/jdk-8u65-macosx-x64.dmg',
+      :require => 'Package[wget]',
+    })
+
+    should contain_package('jdk-8u65-macosx-x64.dmg').with({
+      :provider => 'pkgdmg',
+      :source   => '/Library/Java/JavaVirtualMachines/jdk-8u65-macosx-x64.dmg',
+    })
   end
 end

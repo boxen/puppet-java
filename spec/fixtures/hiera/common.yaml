@@ -1,0 +1,10 @@
+---
+boxen::config::home:       "%{::boxen_home}"
+boxen::config::srcdir:     "%{::boxen_srcdir}"
+boxen::config::bindir:     "%{::boxen_home}/bin"
+boxen::config::cachedir:   "%{::boxen_home}/cache"
+boxen::config::configdir:  "%{::boxen_home}/configdir"
+boxen::config::datadir:    "%{::boxen_home}/datadir"
+boxen::config::envdir:     "%{::boxen_home}/env.d"
+boxen::config::logdir:     "%{::boxen_home}/log"
+boxen::config::socketdir:  "%{::boxen_home}/data/project-sockets"

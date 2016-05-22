@@ -24,11 +24,12 @@ class java (
     command => "wget --quiet --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' ${jdk_download_url}/${jdk_package} -P ${jdk_dir}",
     user    => root,
     creates => "${jdk_dir}/${jdk_package}",
-    require => Package['wget'],
+    require => Package['wget']
   }
 
   package { $jdk_package:
     provider => 'appdmg_eula',
     source   => "${jdk_dir}/${jdk_package}",
+    require  => Exec["download ${jdk_package}"]
   }
 }

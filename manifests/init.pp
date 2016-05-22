@@ -4,8 +4,8 @@
 #
 #    include java
 class java (
-  $update_version = '65',
-  $minor_version = 'b17'
+  $update_version = '92',
+  $minor_version = 'b14'
 ) {
   include boxen::config
   include wget
@@ -28,7 +28,7 @@ class java (
   }
 
   package { $jdk_package:
-    provider => 'pkgdmg',
+    provider => 'appdmg_eula',
     source   => "${jdk_dir}/${jdk_package}",
   }
 }

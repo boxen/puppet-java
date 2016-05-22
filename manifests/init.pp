@@ -28,7 +28,7 @@ class java (
   }
 
   package { $jdk_package:
-    provider => 'appdmg_eula',
+    provider => pkgdmg,
     source   => "${jdk_dir}/${jdk_package}",
     require  => Exec["download ${jdk_package}"]
   }

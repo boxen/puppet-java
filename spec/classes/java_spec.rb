@@ -26,7 +26,7 @@ describe "java" do
     })
 
     should contain_package("jdk-8u#{params[:update_version]}-macosx-x64.dmg").with({
-      :provider => 'appdmg_eula',
+      :provider => 'pkgdmg',
       :source   => "/Library/Java/JavaVirtualMachines/jdk-8u#{params[:update_version]}-macosx-x64.dmg",
     })
   end

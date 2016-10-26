@@ -4,8 +4,8 @@
 #
 #    include java
 class java (
-  $update_version = '92',
-  $minor_version = 'b14'
+  $update_version = '111',
+  $minor_version = 'b11'
 ) {
   include boxen::config
   include wget

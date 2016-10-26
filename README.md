@@ -24,8 +24,8 @@ All of these parameters have sensible defaults, and are provided if you need mor
 Example hiera data in YAML:
 
 ```yaml
-java::update_version: '65'
-java::minor_version: 'b17'
+java::update_version: '111'
+java::minor_version: 'b14'
 ```
 
 ## Required Puppet Modules

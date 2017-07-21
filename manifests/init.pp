@@ -4,14 +4,15 @@
 #
 #    include java
 class java (
-  $update_version = '111',
-  $minor_version = 'b11'
+  $update_version = '141',
+  $minor_version = 'b15',
+  $hash_version = '336fa29ff2bb4ef291e347e091f7f4a7'
 ) {
   include boxen::config
   include wget
 
   $wrapper = "${boxen::config::bindir}/java"
-  $jdk_download_url = "http://download.oracle.com/otn-pub/java/jdk/8u${update_version}-${minor_version}"
+  $jdk_download_url = "http://download.oracle.com/otn-pub/java/jdk/8u${update_version}-${minor_version}/${hash_version}"
   $jdk_package = "jdk-8u${update_version}-macosx-x64.dmg"
   $jdk_dir = '/Library/Java/JavaVirtualMachines'
 

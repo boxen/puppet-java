@@ -1,3 +1,2 @@
-mod 'boxen',  '3.11.0', :github_tarball => 'boxen/puppet-boxen'
-mod 'stdlib', '4.9.0',  :github_tarball => 'puppetlabs/puppetlabs-stdlib'
-mod 'wget',   '1.0.1',  :github_tarball => 'boxen/puppet-wget'
+mod 'boxen',  '3.13.0c', :github_tarball => 'n0ts/puppet-boxen'
+mod 'stdlib', '4.17.1',  :github_tarball => 'puppetlabs/puppetlabs-stdlib'

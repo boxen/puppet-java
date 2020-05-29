@@ -5,23 +5,21 @@
 #    include java
 
 class java (
-  $update_version = '161',
-  $minor_version  = 'b12',
-  $hash_version   = '2f38c3b165be4555a1fa6e98c45e0808'
+  $major_version = '14.0.1',
+  $minor_version = '7',
+  $hash_version  = '664493ef4a6946b186ff29eb326336a2'
 ) {
   include boxen::config
 
   $wrapper = "${boxen::config::bindir}/java"
-  $jdk_download_url = "http://download.oracle.com/otn-pub/java/jdk/8u${update_version}-${minor_version}/${hash_version}"
-  $jdk_package = "jdk-8u${update_version}-macosx-x64.dmg"
+  $jdk_download_url = "https://download.oracle.com/otn-pub/java/jdk/${major_version}+${minor_version}/${hash_version}"
+  $jdk_package = "jdk-${major_version}_osx-x64_bin.dmg"
   $jdk_dir = '/Library/Java/JavaVirtualMachines'
 
   file { $wrapper:
     source => 'puppet:///modules/java/java.sh',
     mode   => '0755',
   }
-
-  package { 'wget': }
 
   exec { "download ${jdk_package}":
     command => "wget --quiet --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' ${jdk_download_url}/${jdk_package} -P ${jdk_dir}",

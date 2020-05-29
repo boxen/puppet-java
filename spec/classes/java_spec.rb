@@ -4,9 +4,9 @@ describe "java" do
   let(:facts) { default_test_facts }
   let(:params) {
     {
-      :update_version => '92',
-      :minor_version => 'b14',
-      :hash_version => '1234',
+      :major_version => '14.0.1',
+      :minor_version => '7',
+      :hash_version  => '664493ef4a6946b186ff29eb326336a2'
     }
   }
 
@@ -14,23 +14,21 @@ describe "java" do
     should contain_class('boxen::config')
 
     should contain_file('/test/boxen/bin/java').with({
-      :source  => 'puppet:///modules/java/java.sh',
-      :mode    => '0755'
+      :source => 'puppet:///modules/java/java.sh',
+      :mode   => '0755'
     })
-  
-#exec { "download ${jdk_package}":
-#    command => "wget --quiet --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' ${jdk_download_url}/${jdk_package} -P ${jdk_dir}",
 
-    should contain_exec("download jdk-8u#{params[:update_version]}-macosx-x64.dmg").with({
-      :command => "wget --quiet --no-check-certificate --no-cookies --header \'Cookie: oraclelicense=accept-securebackup-cookie\' http://download.oracle.com/otn-pub/java/jdk/8u#{params[:update_version]}-#{params[:minor_version]}/#{params[:hash_version]}/jdk-8u#{params[:update_version]}-macosx-x64.dmg -P /Library/Java/JavaVirtualMachines",
+    should contain_exec("download jdk-#{params[:major_version]}_osx-x64_bin.dmg").with({
+      :command => "wget --quiet --no-check-certificate --no-cookies --header \'Cookie: oraclelicense=accept-securebackup-cookie\' https://download.oracle.com/otn-pub/java/jdk/#{params[:major_version]}+#{params[:minor_version]}/#{params[:hash_version]}/jdk-#{params[:major_version]}_osx-x64_bin.dmg -P /Library/Java/JavaVirtualMachines",
       :user    => 'root',
-      :creates => "/Library/Java/JavaVirtualMachines/jdk-8u#{params[:update_version]}-macosx-x64.dmg",
+      :creates => "/Library/Java/JavaVirtualMachines/jdk-#{params[:major_version]}_osx-x64_bin.dmg",
       :require => 'Package[wget]',
     })
 
-    should contain_package("jdk-8u#{params[:update_version]}-macosx-x64.dmg").with({
+    should contain_package("jdk-#{params[:major_version]}_osx-x64_bin.dmg").with({
       :provider => 'pkgdmg',
-      :source   => "/Library/Java/JavaVirtualMachines/jdk-8u#{params[:update_version]}-macosx-x64.dmg",
+      :source   => "/Library/Java/JavaVirtualMachines/jdk-#{params[:major_version]}_osx-x64_bin.dmg",
+      :require  => "Exec[download jdk-#{params[:major_version]}_osx-x64_bin.dmg]",
     })
   end
 end

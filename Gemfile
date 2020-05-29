@@ -1,3 +1,3 @@
 source "https://rubygems.org"
 
-gem "cardboard", "~> 2.1.0"
+gem "cardboard23", "~> 3.0.0b"

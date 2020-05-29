@@ -1,74 +1,36 @@
-# Public: installs java jre-7u51 and JCE unlimited key size policy files
+# Public: installs java jdk and JCE unlimited key size policy files
 #
 # Examples
 #
 #    include java
+
 class java (
-  $update_version = '71',
-  $base_download_url = 'https://s3.amazonaws.com/boxen-downloads/java'
+  $major_version = '14.0.1',
+  $minor_version = '7',
+  $hash_version  = '664493ef4a6946b186ff29eb326336a2'
 ) {
   include boxen::config
 
-  $jre_url = "${base_download_url}/jre-7u${update_version}-macosx-x64.dmg"
-  $jdk_url = "${base_download_url}/jdk-7u${update_version}-macosx-x64.dmg"
   $wrapper = "${boxen::config::bindir}/java"
-  $jdk_dir = "/Library/Java/JavaVirtualMachines/jdk1.7.0_${update_version}.jdk"
-  $sec_dir = "${jdk_dir}/Contents/Home/jre/lib/security"
-
-  if ((versioncmp($::macosx_productversion_major, '10.10') >= 0) and
-    versioncmp($update_version, '71') < 0)
-  {
-    fail('Yosemite Requires Java 7 with a patch level >= 71 (Bug JDK-8027686)')
-  }
+  $jdk_download_url = "https://download.oracle.com/otn-pub/java/jdk/${major_version}+${minor_version}/${hash_version}"
+  $jdk_package = "jdk-${major_version}_osx-x64_bin.dmg"
+  $jdk_dir = '/Library/Java/JavaVirtualMachines'
 
   file { $wrapper:
-    source  => 'puppet:///modules/java/java.sh',
-    mode    => '0755'
+    source => 'puppet:///modules/java/java.sh',
+    mode   => '0755',
   }
 
-  if (versioncmp($::java_jre_version, '1.8.0') < 0) {
-    package {
-      "jre-7u${update_version}.dmg":
-        ensure   => present,
-        alias    => 'java-jre',
-        provider => pkgdmg,
-        source   => $jre_url ;
-    }
+  exec { "download ${jdk_package}":
+    command => "wget --quiet --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' ${jdk_download_url}/${jdk_package} -P ${jdk_dir}",
+    user    => root,
+    creates => "${jdk_dir}/${jdk_package}",
+    require => Package['wget'],
   }
 
-  if (versioncmp($::java_version, '1.8.0') < 0) {
-    package {
-      "jdk-7u${update_version}.dmg":
-        ensure   => present,
-        alias    => 'java',
-        provider => pkgdmg,
-        source   => $jdk_url ;
-    }
-
-    # Allow 'large' keys locally.
-    # http://www.ngs.ac.uk/tools/jcepolicyfiles
-    file { $sec_dir:
-      ensure  => 'directory',
-      owner   => 'root',
-      group   => 'wheel',
-      mode    => '0775',
-      require => Package['java']
-    }
-
-    file { "${sec_dir}/local_policy.jar":
-      source  => 'puppet:///modules/java/local_policy.jar',
-      owner   => 'root',
-      group   => 'wheel',
-      mode    => '0664',
-      require => File[$sec_dir]
-    }
-
-    file { "${sec_dir}/US_export_policy.jar":
-      source  => 'puppet:///modules/java/US_export_policy.jar',
-      owner   => 'root',
-      group   => 'wheel',
-      mode    => '0664',
-      require => File[$sec_dir]
-    }
+  package { $jdk_package:
+    provider => pkgdmg,
+    source   => "${jdk_dir}/${jdk_package}",
+    require  => Exec["download ${jdk_package}"],
   }
 }

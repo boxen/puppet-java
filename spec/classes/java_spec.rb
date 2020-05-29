@@ -4,45 +4,31 @@ describe "java" do
   let(:facts) { default_test_facts }
   let(:params) {
     {
-      :update_version => '42',
-      :base_download_url => 'https://downloads.test/java'
+      :major_version => '14.0.1',
+      :minor_version => '7',
+      :hash_version  => '664493ef4a6946b186ff29eb326336a2'
     }
   }
 
   it do
     should contain_class('boxen::config')
 
-    should contain_package('jre-7u42.dmg').with({
-      :ensure   => 'present',
-      :alias    => 'java-jre',
-      :provider => 'pkgdmg',
-      :source   => 'https://downloads.test/java/jre-7u42-macosx-x64.dmg'
-    })
-
-    should contain_package('jdk-7u42.dmg').with({
-      :ensure   => 'present',
-      :alias    => 'java',
-      :provider => 'pkgdmg',
-      :source   => 'https://downloads.test/java/jdk-7u42-macosx-x64.dmg'
-    })
-
     should contain_file('/test/boxen/bin/java').with({
-      :source  => 'puppet:///modules/java/java.sh',
-      :mode    => '0755'
+      :source => 'puppet:///modules/java/java.sh',
+      :mode   => '0755'
     })
-  end
 
-  context 'fails when java version has Yosemite relevant bug' do
-    let(:facts) { default_test_facts.merge({ :macosx_productversion_major => '10.10' }) }
-    let(:params) {
-      {
-        :update_version => '51',
-      }
-    }
-    it do
-      expect {
-        should contain_class('java')
-      }.to raise_error(/Yosemite Requires Java 7 with a patch level >= 71 \(Bug JDK\-8027686\)/)
-    end
+    should contain_exec("download jdk-#{params[:major_version]}_osx-x64_bin.dmg").with({
+      :command => "wget --quiet --no-check-certificate --no-cookies --header \'Cookie: oraclelicense=accept-securebackup-cookie\' https://download.oracle.com/otn-pub/java/jdk/#{params[:major_version]}+#{params[:minor_version]}/#{params[:hash_version]}/jdk-#{params[:major_version]}_osx-x64_bin.dmg -P /Library/Java/JavaVirtualMachines",
+      :user    => 'root',
+      :creates => "/Library/Java/JavaVirtualMachines/jdk-#{params[:major_version]}_osx-x64_bin.dmg",
+      :require => 'Package[wget]',
+    })
+
+    should contain_package("jdk-#{params[:major_version]}_osx-x64_bin.dmg").with({
+      :provider => 'pkgdmg',
+      :source   => "/Library/Java/JavaVirtualMachines/jdk-#{params[:major_version]}_osx-x64_bin.dmg",
+      :require  => "Exec[download jdk-#{params[:major_version]}_osx-x64_bin.dmg]",
+    })
   end
 end
